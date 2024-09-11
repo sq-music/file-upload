@@ -3,7 +3,11 @@ use http_body_util::{combinators::BoxBody, Empty};
 use hyper::{HeaderMap, Request, Response};
 
 use http_body_util::{BodyExt, Full};
-pub mod upload;
+mod index;
+mod upload;
+
+pub use index::index;
+pub use upload::upload;
 
 pub type Req = Request<hyper::body::Incoming>;
 pub type Res = Result<Response<BoxBody<Bytes, hyper::Error>>, hyper::Error>;

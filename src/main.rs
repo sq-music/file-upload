@@ -10,12 +10,13 @@ use hyper::server::conn::http1;
 use hyper::service::service_fn;
 use hyper::{Method, Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
-use routes::{upload, Req, Res};
+use routes::{index, upload, Req, Res};
 use tokio::net::TcpListener;
 
 async fn echo(req: Req) -> Res {
     match (req.method(), req.uri().path()) {
-        (&Method::GET, "/test") => upload::upload(req),
+        (&Method::GET, "/") => index(req),
+        (&Method::POST, "/upload") => upload(req),
         _ => {
             let mut not_found = Response::new(empty());
             *not_found.status_mut() = StatusCode::NOT_FOUND;

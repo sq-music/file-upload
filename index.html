@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="file" name="x-image" id="x-image">
+        <input type="submit" value="asdf">
+    </form> 
+</body>
+</html>
+<script>
+image = null;
+
+document.querySelector("input#x-image").addEventListener("change", async (e) => {
+   var reader = new FileReader();
+   reader.readAsDataURL(e.target.files[0]);
+   reader.onload = function () {
+     image = reader.result
+   };
+   reader.onerror = function (error) {
+     console.log('Error: ', error);
+   };
+})
+
+document.querySelector("form").addEventListener("submit", async (e) => {
+    e.preventDefault()
+    await fetch("http://127.0.0.1:3000/upload", {
+        "method": "POST",
+        "headers": {
+            "x-image": image 
+        }
+    })
+})
+
+function getBase64(file) {
+   var reader = new FileReader();
+   reader.readAsDataURL(file);
+   reader.onload = function () {
+     return reader.result
+   };
+   reader.onerror = function (error) {
+     console.log('Error: ', error);
+   };
+}
+
+</script>

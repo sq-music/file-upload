@@ -12,8 +12,7 @@ pub struct FileInfo {
     // x_user: String,
 }
 
-pub fn upload(req: Req) -> Res {
-    let header: FileInfo = header2json(req.headers()).unwrap();
-    println!("{:?}", header);
-    Ok(Response::new(full!(":D")))
+pub fn index(req: Req) -> Res {
+    let file = std::fs::read_to_string("index.html").unwrap();
+    Ok(Response::new(full!("{}", file)))
 }
